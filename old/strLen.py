@@ -114,22 +114,29 @@ class Solution:
     def search(self) -> int:
         nums = [-1,0,3,5,9,12]
         target = 9
+
+        if target < nums[0] or target > nums[len(nums) - 1]:
+            return -1
+
+        if target < nums[0] or target > nums[len(nums) - 1]:
+            return -1
+
         left = 0
-        right = len(nums)
+        right = len(nums) - 1
 
         while left <= right:
             center = (left + right) // 2
-            print ('center ', center, ',  left ', left, ' right ', right)
-            if target < nums[center]:
-                right = center - 1
-
+            print (left, right, center)
             if target > nums[center]:
-                left = center + 1
-            
+                left = center
+
+            if target < nums[center]:
+                right = center
+
             if target == nums[center]:
                 return center
-            
-        return -1
+
+        return -1 
 
 #Title: N-Repeated Element in Size 2N Array 
 # You are given an integer array nums with the following properties: 
