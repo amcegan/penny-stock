@@ -10,6 +10,11 @@ Ignore minor fluctuations or general market noise. Focus on:
 - CEO resignation / scanadals
 - Regulatory crackdowns
 - Bankruptcy fears
+- Regulator issues
+- Product recalls
+- Pharmaceutical trial issues
+- Phamacutical FDA issues
+
 
 Return your analysis in the specified JSON format.
 """),
