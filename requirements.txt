@@ -1,3 +1,10 @@
 requests
 pandas
 numpy
+tenacity
+pydantic
+langgraph
+langchain
+langchain-google-genai
+python-dotenv
+pytest

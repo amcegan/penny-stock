@@ -3,9 +3,8 @@ name: Daily Stock Scanner
 on:
   schedule:
     # Runs at 22:00 UTC every weekday (Monday to Friday)
-    # 22:00 UTC is approx 5:00 PM EST (Market Close + 1hr)
     - cron: '0 22 * * 1-5'
-  workflow_dispatch: # Allows manual trigger from Actions tab
+  workflow_dispatch:
 
 jobs:
   scan_and_report:
@@ -25,11 +24,33 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
         
+    - name: Clean previous logs
+      run: rm -f daily_scan.log
+        
     - name: Run High Potential Scanner
       env:
         FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+        GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+        LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
+        LANGCHAIN_TRACING_V2: "true"
         EMAIL_ADDRESS: ${{ secrets.EMAIL_ADDRESS }}
         EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
       run: |
-        python high_potential_scanner.py
+        python -m stock_scanner.main
+        
+    - name: Upload Logs
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: scanner-logs
+        path: daily_scan.log
+        
+    - name: Upload Report
+      if: success()
+      uses: actions/upload-artifact@v4
+      with:
+        name: scan-results
+        path: |
+          *.csv
+          *.md
