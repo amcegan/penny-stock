@@ -17,6 +17,7 @@ def news_node(state: GraphState) -> Dict[str, Any]:
     client = FMPClient()
     llm = get_llm()
     parser = JsonOutputParser(pydantic_object=SentimentAnalysis)
+    
     chain = SENTIMENT_PROMPT | llm | parser
     
     analyst_picks = state.get("analyst_picks", [])
@@ -58,14 +59,17 @@ def news_node(state: GraphState) -> Dict[str, Any]:
                         "symbol": symbol,
                         "news_context": news_text
                     })
-                    # res should be a dict matching SentimentAnalysis
+                    # res should be a dict matching SentimentAnalysis 
+                    # (is_negative, reasoning, summary)
+                    # The ** is the dictionary unpacking operator (sometimes called "splat" or "double star")
                     sentiment = SentimentAnalysis(**res)
                 except Exception as e:
                     logger.error(f"LLM Sentiment Analysis failed for {symbol}: {e}")
                     # Fail safe: assume verify manually? Or assume neutral?
                     # Let's assume neutral but log it.
                     sentiment = SentimentAnalysis(is_negative=False, reasoning=f"LLM Error: {e}", summary="Error analysing news.")
-
+            
+            # model_dump() converts the Pydantic model instance back into a standard Python dictionary.
             item['news_sentiment'] = sentiment.model_dump()
             analyzed_stocks.append(item)
             
