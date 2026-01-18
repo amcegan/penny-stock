@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import Optional
 from dotenv import load_dotenv
 
@@ -7,6 +8,9 @@ load_dotenv()
 
 class Config:
     """Application configuration."""
+    
+    # Base Directory
+    BASE_DIR: Path = Path(__file__).parent.parent.absolute()
     
     # API Keys
     FMP_API_KEY: str = os.environ.get("FMP_API_KEY", "")
@@ -31,7 +35,7 @@ class Config:
     
     # Logging
     LOG_LEVEL: str = os.environ.get("LOG_LEVEL", "INFO")
-    LOG_FILE: str = "daily_scan.log"
+    LOG_FILE: str = str(BASE_DIR / "daily_scan.log")
     
     @classmethod
     def validate(cls):

@@ -64,12 +64,12 @@ def main():
             })
             
         df = pd.DataFrame(csv_data)
-        csv_filename = f"scan_results_{timestamp}.csv"
+        csv_filename = str(config.BASE_DIR / f"scan_results_{timestamp}.csv")
         df.to_csv(csv_filename, index=False)
         logger.info(f"Saved CSV summary to {csv_filename}")
         
         # 2. Detailed Markdown Report
-        md_filename = f"scan_report_{timestamp}.md"
+        md_filename = str(config.BASE_DIR / f"scan_report_{timestamp}.md")
         with open(md_filename, 'w') as f:
             f.write(f"# High Potential Stock Scan Report - {timestamp}\n\n")
             for r in results:
