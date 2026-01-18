@@ -8,7 +8,7 @@ Ignore minor fluctuations or general market noise. Focus on:
 - Lawsuits / FRAUD allegations
 - Earnings misses (major)
 - CEO resignation / scanadals
-- Regulatory crackdowns
+- Regulatory crackdowns 
 - Bankruptcy fears
 - Regulator issues
 - Product recalls
