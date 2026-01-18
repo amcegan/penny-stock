@@ -1,4 +1,4 @@
-name: Daily Stock Scanner
+name: stock-scanner-v2
 
 on:
   schedule:
