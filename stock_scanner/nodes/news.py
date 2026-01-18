@@ -65,9 +65,12 @@ def news_node(state: GraphState) -> Dict[str, Any]:
                     sentiment = SentimentAnalysis(**res)
                 except Exception as e:
                     logger.error(f"LLM Sentiment Analysis failed for {symbol}: {e}")
-                    # Fail safe: assume verify manually? Or assume neutral?
-                    # Let's assume neutral but log it.
-                    sentiment = SentimentAnalysis(is_negative=False, reasoning=f"LLM Error: {e}", summary="Error analysing news.")
+                    # Log the raw output if possible (though chain.invoke error might not have it)
+                    sentiment = SentimentAnalysis(
+                        is_negative=False, 
+                        reasoning=f"LLM/Validation Error: {str(e)}", 
+                        summary="Parsing Error in news analysis."
+                    )
             
             # model_dump() converts the Pydantic model instance back into a standard Python dictionary.
             item['news_sentiment'] = sentiment.model_dump()

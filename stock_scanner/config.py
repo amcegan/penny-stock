@@ -13,6 +13,11 @@ class Config:
     LANGCHAIN_API_KEY: Optional[str] = os.environ.get("LANGCHAIN_API_KEY")
     GOOGLE_API_KEY: Optional[str] = os.environ.get("GOOGLE_API_KEY") # For Gemini
     
+    # Email Settings
+    EMAIL_ADDRESS: Optional[str] = os.environ.get("EMAIL_ADDRESS")
+    EMAIL_PASSWORD: Optional[str] = os.environ.get("EMAIL_PASSWORD")
+    EMAIL_RECIPIENT: Optional[str] = os.environ.get("EMAIL_RECIPIENT")
+    
     # API URLs
     FMP_BASE_URL_V3: str = "https://financialmodelingprep.com/api/v3"
     FMP_BASE_URL_V4: str = "https://financialmodelingprep.com/api/v4"

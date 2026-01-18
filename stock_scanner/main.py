@@ -5,6 +5,8 @@ from datetime import datetime
 from stock_scanner.graph import app
 from stock_scanner.config import config
 from stock_scanner.utils.logger import get_logger
+from stock_scanner.utils.email_client import EmailClient
+import os
 
 logger = get_logger("stock_scanner.main")
 
@@ -17,7 +19,13 @@ def main():
     
     logger.info("Starting Stock Scanner Workflow...")
     
-    try:
+    # LangSmith Debug
+    ls_key = os.environ.get("LANGCHAIN_API_KEY")
+    if ls_key:
+        logger.info(f"LangSmith Tracing status: {os.environ.get('LANGCHAIN_TRACING_V2', 'false')}")
+        logger.info(f"LangSmith Project: {os.environ.get('LANGSMITH_PROJECT', 'default')}")
+    else:
+        logger.warning("LANGCHAIN_API_KEY is not set. Tracing will be disabled.")
         # Initial State
         initial_state = {
             "candidates": [],
@@ -85,6 +93,11 @@ def main():
                 f.write("---\n\n")
                 
         logger.info(f"Saved detailed report to {md_filename}")
+        
+        # 3. Send Email
+        logger.info("Sending Email Report...")
+        email_client = EmailClient()
+        email_client.send_report(results, csv_filename)
         
     except Exception as e:
         logger.error(f"Workflow failed: {e}", exc_info=True)

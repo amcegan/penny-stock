@@ -7,16 +7,20 @@ SENTIMENT_PROMPT = ChatPromptTemplate.from_messages([
 Ignore minor fluctuations or general market noise. Focus on:
 - Lawsuits / FRAUD allegations
 - Earnings misses (major)
-- CEO resignation / scanadals
+- CEO resignation / scandals
 - Regulatory crackdowns 
 - Bankruptcy fears
 - Regulator issues
 - Product recalls
 - Pharmaceutical trial issues
-- Phamacutical FDA issues
+- Pharmaceutical FDA issues
 
+CRITICAL: You MUST return a JSON object with EXACTLY these three fields:
+1. "is_negative": (boolean) true if significant negative news is found, false otherwise.
+2. "reasoning": (string) a brief explanation of why you made the decision.
+3. "summary": (string) a one-sentence summary of the news sentiment.
 
-Return your analysis in the specified JSON format.
+Do not include any other fields in your response.
 """),
     ("human", """Company: {company_name} ({symbol})
     
