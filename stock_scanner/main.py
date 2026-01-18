@@ -19,13 +19,15 @@ def main():
     
     logger.info("Starting Stock Scanner Workflow...")
     
-    # LangSmith Debug
-    ls_key = os.environ.get("LANGCHAIN_API_KEY")
-    if ls_key:
-        logger.info(f"LangSmith Tracing status: {os.environ.get('LANGCHAIN_TRACING_V2', 'false')}")
-        logger.info(f"LangSmith Project: {os.environ.get('LANGSMITH_PROJECT', 'default')}")
-    else:
-        logger.warning("LANGCHAIN_API_KEY is not set. Tracing will be disabled.")
+    try:
+        # LangSmith Debug
+        ls_key = os.environ.get("LANGCHAIN_API_KEY")
+        if ls_key:
+            logger.info(f"LangSmith Tracing status: {os.environ.get('LANGCHAIN_TRACING_V2', 'false')}")
+            logger.info(f"LangSmith Project: {os.environ.get('LANGSMITH_PROJECT', 'default')}")
+        else:
+            logger.warning("LANGCHAIN_API_KEY is not set. Tracing will be disabled.")
+        
         # Initial State
         initial_state = {
             "candidates": [],
